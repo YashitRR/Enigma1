@@ -1,0 +1,125 @@
+<div></div><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" 
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, 
+    user-scalable=0" >
+    <meta name="author" content="Yashit Kodwani">
+    <canvas id="c"></canvas>
+    
+    
+    <title></title>
+    <style type="text/css">
+    html,body{
+    				height:100%;
+    				width:100%;
+    				margin:0;
+    }
+    #c{
+    				display:block;
+    				
+    }
+    
+    
+    
+    </style>
+  </head>
+  <body>
+  
+  
+  
+  
+  
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js">
+  </script>
+  
+  <script type="text/javascript" >
+  
+  
+  var camera, scene, renderer;
+  var geometry, material, box;
+  var c = document.getElementById("c");
+  
+  init();
+  animate();
+  
+  
+  
+  function init() {
+  
+  					scene = new THREE.Scene();
+  
+  					const loader = new THREE.TextureLoader();
+  					geometry = new THREE.BoxGeometry(1,1,1);
+	 				const material2 = new THREE.MeshPhongMaterial(
+	 								{
+	 												map: loader.load("https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?cs=srgb&dl=pexels-fwstudio-129733.jpg&fm=jpg")
+	 												
+	 								}
+	 				)
+	 				box = new THREE.Mesh(geometry,material2);
+	 				scene.add(box);
+	 				
+	 				
+  				
+  				
+ 	 				var fov = 70;
+ 	 				var aspect = window.innerWidth / window.innerHeight;
+ 	 				var near = 0.10;
+ 	 				var far = 100;
+ 	 				camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+ 	 				camera.position.z = 4;
+ 	 
+  
+	 				renderer = new THREE.WebGLRenderer( {c} );
+	 				renderer.setSize( window.innerWidth, window.innerHeight );
+	 																		document.body.appendChild( renderer.domElement );
+	 				
+	 				
+	 			 
+	 				{
+	 								const color = "white";
+	 								const intensity= 1;
+	 								const light = new THREE.DirectionalLight(color, intensity);
+	 								light.position.set(-1, 2, 4);
+	 								scene.add(light);
+	 				}
+  }
+  
+  function animate() {
+	  				requestAnimationFrame( animate );
+					  if (resizeToRealSize(renderer)) {
+   								 const canvas = renderer.domElement;
+    								camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    								camera.updateProjectionMatrix();
+  					}
+	  				autoRotate();
+	  				renderer.render( scene, camera );
+  }
+  
+  function autoRotate() {
+	  				box.rotation.x += 0.01;
+	  				box.rotation.y += 0.02;
+  }
+  
+  function resizeToRealSize(r) {
+  				const canvas = r.domElement;
+  				const pixelRatio = window.devicePixelRatio;
+  				const width = canvas.clientWidth * pixelRatio | 0;
+  				const height = canvas.clientHeight * pixelRatio | 0;
+  				const needResize = canvas.width !== width || canvas.height !== height;
+  				if(needResize){
+  								r.setSize(width, height,false);
+  				}
+  				return needResize;
+  				
+  				
+  }
+  
+  
+  
+  
+  </script>
+</html>
